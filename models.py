@@ -18,7 +18,20 @@ class User(db.Model):
     self.username = username
     self.email = email
     self.set_password(password)
+    
+  def create_todo(self,text):
+    new_todo = Todo(text)
+    self.todos.append(new_todo)
+    return new_todo
 
+  def add_todo_category(self,todo_id,category_text):
+    rodo = Todo.query.filter_by(id=todo_id,user_id=self.id).first()
+    if not rodo:
+      return False
+
+    return True
+  
+  
   def set_password(self, password):
     """Create hashed password."""
     self.password = generate_password_hash(password, method='scrypt')
